@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function Form() {
+export default function Form({ setTodos }) {
   const [input, setInput] = useState('');
   const handleSubmitForm = e => {
     e.preventDefault();
@@ -12,9 +12,22 @@ export default function Form() {
         { title: input },
         { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } }
       )
-      .then(() => {
+      .then(res => {
         console.log('success');
         setInput('');
+        // axios
+        //   .get('http://localhost:5555/todo', {
+        //     headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
+        //   })
+        //   .then(res => {
+        //     setTodos(res.data.todos);
+        //   })
+        //   .catch(err => {
+        //     console.log(err);
+        //   });
+
+        // new Todo Obejct => res.data.todo
+        setTodos(prev => [...prev, res.data.todo]);
       })
       .catch(err => console.log(err));
   };
